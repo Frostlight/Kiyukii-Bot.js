@@ -40,6 +40,25 @@ module.exports = class GelbooruCommand extends Commando.Command {
                         
                         // Return image as a file embed
                         return msg.reply("", {file: url});
+                        
+                        // For extra information in embed
+                        // Omitted for now
+                        /*embed: {
+                            color: 3447003,
+                            title: `Gelbooru`,
+                            url: "http://gelbooru.com/",
+                            fields: [{
+                                name: "Source",
+                                value: item['$']['source'],
+                                inline: true
+                            }, 
+                            {
+                                name: "Tags",
+                                value: item['$']['tags'],
+                                inline: true
+                            }]
+                        }*/
+                        
                     // Unknown error occured?
                     } else {
                         console.log(err);
