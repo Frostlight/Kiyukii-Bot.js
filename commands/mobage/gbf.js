@@ -32,6 +32,7 @@ module.exports = class GranblueCommand extends Commando.Command {
                     return msg.reply(`${wikiPage}`);
                 }
                 else {
+                    return msg.reply(`\`${wiki}\` did not match any wiki pages.`)
                 }
             }
         })
