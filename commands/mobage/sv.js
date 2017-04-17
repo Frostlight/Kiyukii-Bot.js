@@ -69,7 +69,7 @@ module.exports = class ShadowverseCommands extends Commando.Command {
                     }});
                 }
                 else {
-                    return msg.reply(`\`${card}\` did not match any cards. Please try again.`)
+                    return msg.reply(`\`${card}\` did not match any cards.`)
                 }
             }
         })

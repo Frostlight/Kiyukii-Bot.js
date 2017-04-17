@@ -99,7 +99,7 @@ module.exports = class FEHeroesCommand extends Commando.Command {
                     }});
                 }
                 else {
-                    return msg.reply(`\`${character}\` did not match any characters. Please try again.`)
+                    return msg.reply(`\`${character}\` did not match any characters.`)
                 }
             }
         })
