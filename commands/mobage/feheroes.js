@@ -34,17 +34,67 @@ module.exports = class FEHeroesCommand extends Commando.Command {
                         break;
                     }
                 }
-
+                
                 if (typeof characterInfo != 'undefined') {
+                    // Create string for stats of heroes
+                    var statString = '';
+                    // Level 1 4* stats (if it exists)
+                    if (typeof(characterInfo['stats']['1']['4']) != 'undefined') {
+                        var statDir = characterInfo['stats']['1']['4'];
+                        statString += `\n**4★ Neutral Level 1** HP/ATK/SPD/DEF/RES:\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
+                    }
+                    // Level 1 5* stats
+                    var statDir = characterInfo['stats']['1']['5'];
+                    statString += `\n**5★ Neutral Level 1** HP/ATK/SPD/DEF/RES:\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
+                        
+                    // Level 40 5* stats
+                    if (typeof(characterInfo['stats']['40']['5']['hp'][2]) != 'undefined') {
+                        var statDir = characterInfo['stats']['40']['5'];
+                        // Stats have range, so we take the middle range
+                        statString += `\n**5★ Neutral Level 40** HP/ATK/SPD/DEF/RES:\n${statDir['hp'][1]}/${statDir['atk'][1]}/${statDir['spd'][1]}/${statDir['def'][1]}/${statDir['res'][1]}`;
+                    } else {
+                        // Stats have no range, take the [0] index
+                        var statDir = characterInfo['stats']['40']['5'];
+                        statString += `\n**5★ Neutral Level 40** HP/ATK/SPD/DEF/RES:\n${statDir['hp'][0]}/${statDir['atk'][0]}/${statDir['spd'][0]}/${statDir['def'][0]}/${statDir['res'][0]}`;
+                    }
+                    
+                    // Create string for skills of heroes
+                    var skillString = '';
+                    for (var i = 0; i < characterInfo['skills'].length; i++) {
+                        // Add a comma before subsequent skills
+                        if (i > 0) {
+                            skillString += ", "
+                        }
+                        skillString += characterInfo['skills'][i]['name'];
+                    }
+                    
                     return msg.reply("", {embed: {
                         color: 3447003,
                         title: `Fire Emblem Heroes`,
                         url: "https://fire-emblem-heroes.com/",
                         fields: [{
-                            name: "Stats",
-                            value: `**Name:** ${characterInfo['name']}\n**Title:** ${characterInfo['title']}
-                                \n**4★ Neutral Level 1 HP/ATK/SPD/DEF/RES:** ${characterInfo[stats]['1']['4']}`,
+                            name: "Details",
+                            value: `**Name:** ${characterInfo['name']}\
+                                \n**Title:** ${characterInfo['title']}\
+                                \n**Origin:** ${characterInfo['origin']}\
+                                \n**Weapon Type:** ${characterInfo['weaponType']}\
+                                \n**Rarities:** ${characterInfo['rarities']}\
+                                \n**Release Date:** ${characterInfo['releaseDate']}`,
                             inline: true
+                        }, 
+                        {
+                            name: "Stats",
+                            value: `${statString}`,
+                            inline: true
+                        },
+                        {
+                            name: "Skills",
+                            value: `${skillString}`,
+                            inline: true
+                        },
+                        {
+                            name: "Wiki",
+                            value: `http://feheroes.wiki/${characterInfo['name']}`
                         }]
                     }});
                 }

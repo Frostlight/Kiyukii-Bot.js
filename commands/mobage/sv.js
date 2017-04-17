@@ -1,6 +1,5 @@
 const Commando = require('discord.js-commando');
 const request = require('request');
-const dedent = require('dedent-js')
 
 module.exports = class ShadowverseCommands extends Commando.Command {
     constructor(client) {
@@ -46,22 +45,22 @@ module.exports = class ShadowverseCommands extends Commando.Command {
                         },
                         fields: [{
                             name: "Stats",
-                            value: dedent(`**Name:** ${cardInfo['card_name']}
-                                **Cost:** ${cardInfo['cost']} PP
-                                **Attack/Defense:** ${cardInfo['atk']}/${cardInfo['life']}
-                                **Evoved Attack/Defense:** ${cardInfo['evo_atk']}/${cardInfo['evo_life']}`),
+                            value: `**Name:** ${cardInfo['card_name']}\
+                                \n**Cost:** ${cardInfo['cost']} PP\
+                                \n**Attack/Defense:** ${cardInfo['atk']}/${cardInfo['life']}\
+                                \n**Evoved Attack/Defense:** ${cardInfo['evo_atk']}/${cardInfo['evo_life']}`,
                             inline: true
                         },
                         {
                             name: "Skills",
-                            value: dedent(`**Skill:** ${cardInfo['skill_disc']}
-                                **Evolved Skill:** ${cardInfo['evo_skill_disc']}`)
+                            value: `**Skill:** ${cardInfo['skill_disc']}\
+                                \n**Evolved Skill:** ${cardInfo['evo_skill_disc']}`
                         },
                         {
                             name: "Lore",
-                            value: dedent(`**Description:** ${cardInfo['description']}
-                                **Evolved Description:** ${cardInfo['evo_description']}
-                                **Tribe:** ${cardInfo['tribe_name']}`)
+                            value: `**Description:** ${cardInfo['description']}\
+                                \n**Evolved Description:** ${cardInfo['evo_description']}\
+                                \n**Tribe:** ${cardInfo['tribe_name']}`
                         },
                         {
                             name: "Art",
