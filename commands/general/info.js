@@ -1,7 +1,7 @@
 const Commando = require('discord.js-commando');
 const request = require('request'); 
 
-module.exports = class GeneralCommands extends Commando.Command {
+module.exports = class GeneralCommand extends Commando.Command {
     constructor(client) {
         super(client, {
             name: "info",

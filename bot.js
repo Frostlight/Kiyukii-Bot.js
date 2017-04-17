@@ -43,8 +43,8 @@ client.setProvider(
 client.registry
     // Registers your custom command groups
     .registerGroups([
-        ['mobage', 'Mobage'],
-        ['general', 'General Commands'],
+        ['general', 'General'],
+        ['mobage', 'Mobage']
     ])
 
     // Registers all built-in groups, commands, and argument types

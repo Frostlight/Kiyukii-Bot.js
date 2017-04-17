@@ -1,7 +1,7 @@
 const Commando = require('discord.js-commando');
 const request = require('request');
 
-module.exports = class ShadowverseCommands extends Commando.Command {
+module.exports = class ShadowverseCommand extends Commando.Command {
     constructor(client) {
         super(client, {
             name: "sv",
