@@ -44,6 +44,7 @@ client.registry
     // Registers your custom command groups
     .registerGroups([
         ['general', 'General'],
+        ['images', 'Images'],
         ['mobage', 'Mobage']
     ])
 
