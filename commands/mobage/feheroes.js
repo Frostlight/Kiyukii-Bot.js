@@ -78,7 +78,7 @@ module.exports = class FEHeroesCommand extends Commando.Command {
                                 \n**Title:** ${characterInfo['title']}\
                                 \n**Origin:** ${characterInfo['origin']}\
                                 \n**Weapon Type:** ${characterInfo['weaponType']}\
-                                \n**Rarities:** ${characterInfo['rarities']}\
+                                \n**Rarity:** ${characterInfo['rarities']}\
                                 \n**Release Date:** ${characterInfo['releaseDate']}`,
                             inline: true
                         }, 

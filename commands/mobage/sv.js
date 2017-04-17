@@ -48,7 +48,7 @@ module.exports = class ShadowverseCommand extends Commando.Command {
                             value: `**Name:** ${cardInfo['card_name']}\
                                 \n**Cost:** ${cardInfo['cost']} PP\
                                 \n**Attack/Defense:** ${cardInfo['atk']}/${cardInfo['life']}\
-                                \n**Evoved Attack/Defense:** ${cardInfo['evo_atk']}/${cardInfo['evo_life']}`,
+                                \n**Evolved Attack/Defense:** ${cardInfo['evo_atk']}/${cardInfo['evo_life']}`,
                             inline: true
                         },
                         {
