@@ -37,25 +37,25 @@ module.exports = class FEHeroesCommand extends Commando.Command {
                 
                 if (typeof characterInfo != 'undefined') {
                     // Create string for stats of heroes
-                    var statString = '';
+                    var statString = 'HP/ATK/SPD/DEF/RES';
                     // Level 1 4* stats (if it exists)
                     if (typeof(characterInfo['stats']['1']['4']) != 'undefined') {
                         var statDir = characterInfo['stats']['1']['4'];
-                        statString += `\n**4★ Neutral Level 1** HP/ATK/SPD/DEF/RES:\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
+                        statString += `\n**4★ Neutral Level 1:**\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
                     }
                     // Level 1 5* stats
                     var statDir = characterInfo['stats']['1']['5'];
-                    statString += `\n**5★ Neutral Level 1** HP/ATK/SPD/DEF/RES:\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
+                    statString += `\n**5★ Neutral Level 1:**\n${statDir['hp']}/${statDir['atk']}/${statDir['spd']}/${statDir['def']}/${statDir['res']}`;
                         
                     // Level 40 5* stats
                     if (typeof(characterInfo['stats']['40']['5']['hp'][2]) != 'undefined') {
                         var statDir = characterInfo['stats']['40']['5'];
                         // Stats have range, so we take the middle range
-                        statString += `\n**5★ Neutral Level 40** HP/ATK/SPD/DEF/RES:\n${statDir['hp'][1]}/${statDir['atk'][1]}/${statDir['spd'][1]}/${statDir['def'][1]}/${statDir['res'][1]}`;
+                        statString += `\n**5★ Neutral Level 40:**\n${statDir['hp'][1]}/${statDir['atk'][1]}/${statDir['spd'][1]}/${statDir['def'][1]}/${statDir['res'][1]}`;
                     } else {
                         // Stats have no range, take the [0] index
                         var statDir = characterInfo['stats']['40']['5'];
-                        statString += `\n**5★ Neutral Level 40** HP/ATK/SPD/DEF/RES:\n${statDir['hp'][0]}/${statDir['atk'][0]}/${statDir['spd'][0]}/${statDir['def'][0]}/${statDir['res'][0]}`;
+                        statString += `\n**5★ Neutral Level 40:**\n${statDir['hp'][0]}/${statDir['atk'][0]}/${statDir['spd'][0]}/${statDir['def'][0]}/${statDir['res'][0]}`;
                     }
                     
                     // Create string for skills of heroes
