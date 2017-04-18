@@ -69,7 +69,7 @@ module.exports = class FEHeroesCommand extends Commando.Command {
                     }
                     
                     return msg.reply("", {embed: {
-                        color: 3447003,
+                        color: 13369344,
                         title: `Fire Emblem Heroes`,
                         url: "https://fire-emblem-heroes.com/",
                         fields: [{

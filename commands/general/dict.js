@@ -39,7 +39,7 @@ module.exports = class dictCommand extends Commando.Command {
                 }
                 
                 return msg.reply("", {embed: {
-                    color: 3447003,
+                    color: 11591910,
                     // Return title as upper case first letter
                     title: `${term.charAt(0).toUpperCase() + term.slice(1)}`,
                     fields: fieldArray

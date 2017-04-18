@@ -37,7 +37,7 @@ module.exports = class ShadowverseCommand extends Commando.Command {
 
                 if (typeof cardInfo != 'undefined') {
                     return msg.reply("", {embed: {
-                        color: 3447003,
+                        color: 10027161,
                         title: `Shadowverse`,
                         url: "https://shadowverse.com",
                         thumbnail: {

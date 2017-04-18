@@ -50,16 +50,23 @@ module.exports = class UrbanCommand extends Commando.Command {
                     break;
                 }
                 
+                // Form the definition/example string
+                var definitionString = definition;
+                // Add example if provided
+                if (typeof example != 'undefined' && definition != example) {
+                    definitionString += `\n**Example**\n${example}`;
+                }
+                
+                
                 fieldArray.push({
                     name: `${i + 1}. ${data[i]['word']}`,
-                    value: `${definition}\
-                        \n**Example:**\n${example}`,
+                    value: definitionString,
                     inline: true
                 });
             };
             
             return msg.reply("", {embed: {
-                color: 3447003,
+                color: 8421504,
                 title: `Urban Dictionary`,
                 url: "http://www.urbandictionary.com/",
                 fields: fieldArray
