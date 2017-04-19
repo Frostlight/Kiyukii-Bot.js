@@ -30,43 +30,52 @@ module.exports = class GelbooruCommand extends Commando.Command {
                 // Parse XML response
                 let parseString = xml2js.parseString;
                 parseString(body, function(err, result) {
-                    if (!error) {
+                    if (!err) {
                         // The resulting array of entries
                         let resultArray = result['posts']['post'];
                         
-                        // Pick a random element from the array and send the URL
-                        var item = resultArray[Math.floor(Math.random()*resultArray.length)];
-                        var url = "http:" + item['$']['file_url'];
-                        
-                        // Return image as a file embed
-                        return msg.reply("", {file: url});
-                        
-                        // For extra information in embed
-                        // Omitted for now
-                        /*embed: {
-                            color: 3447003,
-                            title: `Gelbooru`,
-                            url: "http://gelbooru.com/",
-                            fields: [{
-                                name: "Source",
-                                value: item['$']['source'],
-                                inline: true
-                            }, 
-                            {
-                                name: "Tags",
-                                value: item['$']['tags'],
-                                inline: true
-                            }]
-                        }*/
-                        
-                    // Unknown error occured?
+                        if (typeof resultArray != 'undefined') {
+                            // Pick a random element from the array and send the URL
+                            var item = resultArray[Math.floor(Math.random()*resultArray.length)];
+                            var url = "http:" + item['$']['file_url'];
+                            
+                            // Return image as a file embed
+                            return msg.reply("", {file: url});
+                            
+                            // For extra information in embed
+                            // Omitted for now
+                            /*embed: {
+                                color: 3447003,
+                                title: `Gelbooru`,
+                                url: "http://gelbooru.com/",
+                                fields: [{
+                                    name: "Source",
+                                    value: item['$']['source'],
+                                    inline: true
+                                }, 
+                                {
+                                    name: "Tags",
+                                    value: item['$']['tags'],
+                                    inline: true
+                                }]
+                            }*/
+                            
+                        // No results to query
+                        } else {
+                            return msg.reply(`\`${tags}\` did not match any images.`);
+                            
+                        }
+                    // Parse error
                     } else {
                         console.log(err);
                         return msg.reply(`Something went wrong! Please try again later.`);
                     }
                 });
+                
+            // Request error
             } else {
-                return msg.reply(`\`${tags}\` did not match any images.`);
+                console.log(error);
+                return msg.reply(`Something went wrong! Please try again later.`);
             }
         })
     }

@@ -39,7 +39,7 @@ module.exports = class UrbanCommand extends Commando.Command {
                 }
                 var example = data[i]['example'];
                 if (example.length > 100) {
-                    example = definition.substring(0, 200) + "...";
+                    example = example.substring(0, 200) + "...";
                 }
                 
                 // Stop early if we reached discord message limit (2000 chars)
@@ -53,10 +53,9 @@ module.exports = class UrbanCommand extends Commando.Command {
                 // Form the definition/example string
                 var definitionString = definition;
                 // Add example if provided
-                if (typeof example != 'undefined' && definition != example) {
-                    definitionString += `\n**Example**\n${example}`;
+                if (example.length > 0) {
+                    definitionString += `\n**Example:**\n${example}`;
                 }
-                
                 
                 fieldArray.push({
                     name: `${i + 1}. ${data[i]['word']}`,
