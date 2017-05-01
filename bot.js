@@ -15,7 +15,8 @@ const config = require('./config.json');
 // Initialise commando client
 const client = new Commando.Client({
     owner: '116401285334433792',
-    commandPrefix: config.command_prefix
+    commandPrefix: config.command_prefix,
+    unknownCommandResponse: false
 });
 
 // Client Events logging
