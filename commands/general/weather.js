@@ -26,15 +26,20 @@ module.exports = class WeatherCommand extends Command {
                 .get('https://query.yahooapis.com/v1/public/yql')
                 .query({q: `select * from weather.forecast where u=\'C\' AND woeid in (select woeid from geo.places(1) where text="${location}")`})
                 .query({format: 'json'});
-            const data = body.query.results.channel;
-            const embed = new RichEmbed()
+                
+            if (body.query.count >= 1) {
+                const data = body.query.results.channel;
+                const embed = new RichEmbed()
                 .setColor(0xADD8E6)
                 .setThumbnail('http://i.imgur.com/DjfE3H4.png')
                 .setURL(data.link)
                 .setTimestamp()
                 .addField(`Weather in ${data.location.city}, ${data.location.region}, ${data.location.country}`,
                     `${data.item.condition.temp}°C ${data.item.condition.text}`, true)
-            return msg.embed(embed);
+                return msg.embed(embed);
+            } else {
+                return msg.reply(`\`${location}\` did not match any locations.`)
+            }
         } catch (err) {
             console.log(err);
             return msg.reply(`Something went wrong! Please try again later.`)
