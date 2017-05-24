@@ -1,5 +1,5 @@
 const Commando = require('discord.js-commando');
-const request = require('request');
+const { RichEmbed } = require('discord.js');
 const wordnet = require('wordnet');
 
 module.exports = class dictCommand extends Commando.Command {
@@ -22,30 +22,27 @@ module.exports = class dictCommand extends Commando.Command {
         })
     }
 
-    async run(msg, args, client){
+    async run(message, args, client){
         let term = args.term;
         
-        wordnet.lookup(term, function(err, definitions) {
+        // wordnet only supports callbacks for now
+        wordnet.lookup(term, function(error, definitions) {
             if (typeof definitions != 'undefined') {
-                // Create fields array beforehand
-                var fieldArray = [];
+                // Create RichEmbed to return beforehand and add definitions to it later
+                var embed = new RichEmbed()
+                    .setColor(0xE6E0B0)
+                    .setTitle(term.charAt(0).toUpperCase() + term.slice(1))
+                    .setTimestamp();
+                    
                 // Only return up to three entries
                 for (var i = 0; (i < 3) && (i < definitions.length); i++) {
-                    fieldArray.push({
-                        name: `${i + 1}. ${definitions[i]['meta']['synsetType']}`,
-                        value: `${definitions[i]['glossary']}`,
-                        inline: true
-                    });
+                    embed.addField(`${i + 1}. ${definitions[i]['meta']['synsetType']}`,
+                        definitions[i]['glossary'], true);
                 }
                 
-                return msg.reply("", {embed: {
-                    color: 11591910,
-                    // Return title as upper case first letter
-                    title: `${term.charAt(0).toUpperCase() + term.slice(1)}`,
-                    fields: fieldArray
-                }});
+                return message.embed(embed);
             } else {
-                return msg.reply(`\`${term}\` did not match any results.`);
+                return message.say(`\`${term}\` did not match any results.`);
             }
         });
     

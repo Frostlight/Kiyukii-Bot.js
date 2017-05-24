@@ -1,5 +1,5 @@
 const Commando = require('discord.js-commando');
-const request = require('request');
+const request = require('superagent');
 
 module.exports = class WikiCommand extends Commando.Command {
     constructor(client) {
@@ -21,20 +21,30 @@ module.exports = class WikiCommand extends Commando.Command {
         })
     }
 
-    async run(msg, args, client){
-        let wiki = args.wiki;
-        request(`https://en.wikipedia.org/w/api.php?action=opensearch&format=json&namespace=0&limit=1&search=${wiki}`, function(error, response, body) {
-            if (!error && response.statusCode == 200) { 
-                let wikiPage = JSON.parse(body)[3];
-
-                // Return the wiki URL if there are any results for the search
-                if (typeof wikiPage != 'undefined' && wikiPage != '') {
-                    return msg.reply(`${wikiPage}`);
-                }
-                else {
-                    return msg.reply(`\`${wiki}\` did not match any wiki pages.`)
-                }
+    async run(message, args, client){
+        const { wiki } = args;
+        try {
+            // Form query and send GET request
+            const { body } = await request
+                .get('https://en.wikipedia.org/w/api.php')
+                .query({action: 'opensearch'})
+                .query({format: 'json'})
+                .query({namespace: '0'})
+                .query({limit: '1'})
+                .query({search: wiki});
+                
+            // Return the wiki URL if there are any results for the search
+            let wikiPage = body[3][0];
+            console.log(wikiPage);
+            if (typeof wikiPage != 'undefined' && wikiPage != '') {
+                return message.say(wikiPage);
             }
-        })
+            else {
+                return message.say(`\`${wiki}\` did not match any wiki pages.`)
+            }
+        } catch (error) {
+            console.log(error);
+            return message.say(`Something went wrong! Please try again later.`);
+        }
     }
 }

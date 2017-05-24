@@ -1,5 +1,5 @@
 const Commando = require('discord.js-commando');
-const request = require('request'); 
+const { RichEmbed } = require('discord.js');
 
 module.exports = class GeneralCommand extends Commando.Command {
     constructor(client) {
@@ -12,19 +12,14 @@ module.exports = class GeneralCommand extends Commando.Command {
         })
     }
 
-    async run(msg, client){
-        return msg.reply("", {embed: {
-            color: 3447003,
-            title: `${this.client.user.username}#${this.client.user.discriminator}`,
-            url: "https://github.com/Frostlight/Kiyukii-Bot.js",
-            thumbnail: {
-                url: this.client.user.avatarURL
-            },
-            fields: [{
-                name: "Information",
-                value: `**Servers:** ${this.client.guilds.array().length}\n**Since:** ${this.client.user.createdAt.toDateString()}`,
-                inline: true
-            }]
-        }});
+    async run(message, client){
+        const embed = new RichEmbed()
+            .setColor(0x3498DB)
+            .setTitle(`${this.client.user.username}#${this.client.user.discriminator}`)
+            .setURL('https://github.com/Frostlight/Kiyukii-Bot.js')
+            .setThumbnail(this.client.user.avatarURL)
+            .setTimestamp()
+            .addField('Information', `**Servers:** ${this.client.guilds.array().length}\n**Since:** ${this.client.user.createdAt.toDateString()}`, true);
+        return message.embed(embed);
     }
 }

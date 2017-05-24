@@ -1,6 +1,5 @@
 const Commando = require('discord.js-commando');
 const { RichEmbed } = require('discord.js');
-const request = require('request');
 const urban = require('relevant-urban');
 
 module.exports = class UrbanCommand extends Commando.Command {
@@ -23,12 +22,14 @@ module.exports = class UrbanCommand extends Commando.Command {
         })
     }
 
-    async run(msg, args, client){
-        let term = args.term;
+    async run(message, args, client){
+        let { term } = args;
         
-        // Set up promise and then() for urban dictionary look up
-        var urbanPromise = urban.all(term);
-        urbanPromise.then(function(data) {
+        try {
+            // Await promise for urbandictionary lookup
+            // Invalid lookups generate a TypeError
+            var urban = await urban.all(term);
+            
             // Create RichEmbed to return beforehand and add definitions to it later
             var embed = new RichEmbed()
                     .setColor(0x808080)
@@ -48,10 +49,10 @@ module.exports = class UrbanCommand extends Commando.Command {
             const charsForDefinition = charsForEach  * (3/4);
             const charsForExample = charsForEach * (1/4) - 14;
             
-            for (var i = 0; (i < 3) && (i < data.length); i++) {
+            for (var i = 0; (i < 3) && (i < urban.length); i++) {
                 // Definition and examples are vars because we trim them if their length exceeds the limit
-                var definition = data[i]['definition'];
-                var example = data[i]['example'];
+                var definition = urban[i]['definition'];
+                var example = urban[i]['example'];
                 
                 // Case where no example is provided, the text limit in this case is charsForEach
                 if (example.length == 0 && definition.length > charsForEach) {
@@ -76,12 +77,19 @@ module.exports = class UrbanCommand extends Commando.Command {
                 var definitionString = definition + ((example.length > 0) ? `\n**Example:**\n${example}` : '');
                 
                 // Add definition to RichEmbed response
-                embed.addField(`${i + 1}. ${data[i]['word']}`, definitionString, true);
+                embed.addField(`${i + 1}. ${urban[i]['word']}`, definitionString, true);
             };
             
-            return msg.embed(embed);
-        }, function(err) {
-            return msg.reply(`\`${term}\` did not match any results.`);
-        });
+            return message.embed(embed);
+        } catch (error) {
+            if (error instanceof TypeError) {
+                // Lookup failed (no results)
+                return message.say(`\`${term}\` did not match any results.`);
+            } else {
+                // Any other error
+                console.log(error);
+                return message.reply(`Something went wrong! Please try again later.`)
+            }
+        }
     }
 }

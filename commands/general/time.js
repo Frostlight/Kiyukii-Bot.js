@@ -23,7 +23,7 @@ module.exports = class WikiCommand extends Commando.Command {
         })
     }
 
-    async run(msg, args, client){
+    async run(message, args, client){
         // Get timezone from arguments
         let timezone = args.timezone;
         var timezone_list = moment.tz.names();
@@ -43,11 +43,9 @@ module.exports = class WikiCommand extends Commando.Command {
                 .setThumbnail('http://i.imgur.com/YPVdDAM.png')
                 .setTimestamp()
                 .addField(`Time in ${timezone_result}`, time_now, true);
-            return msg.embed(embed);
+            return message.embed(embed);
         } else {
-            return msg.reply(`\`${timezone}\` did not match any timezones.`);
+            return message.say(`\`${timezone}\` did not match any timezones.`);
         }
-        
-      
     }
 }

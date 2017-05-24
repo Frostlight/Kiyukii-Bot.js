@@ -19,7 +19,7 @@ module.exports = class ShadowverseCommand extends Command {
         });
     }
 
-    async run(msg, args, client){
+    async run(message, args, client){
         const { card } = args;
         try {
             // Form query and send GET request
@@ -58,13 +58,13 @@ module.exports = class ShadowverseCommand extends Command {
                             \n**Tribe:** ${cardInfo['tribe_name']}`, true)
                     .addField('Art',
                         `[Classic](https://shadowverse-portal.com/image/card/en/C_${cardInfo['card_id']}.png) - [Evolved](https://shadowverse-portal.com/image/card/en/E_${cardInfo['card_id']}.png)`, true);
-                return msg.embed(embed);
+                return message.embed(embed);
             } else {
-                return msg.reply(`\`${card}\` did not match any cards.`);
+                return message.say(`\`${card}\` did not match any cards.`);
             }
         } catch (err) {
             console.log(err);
-            return msg.reply(`Something went wrong! Please try again later.`);
+            return message.say(`Something went wrong! Please try again later.`);
         }
     }
 }

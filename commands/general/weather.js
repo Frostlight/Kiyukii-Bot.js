@@ -18,7 +18,7 @@ module.exports = class WeatherCommand extends Command {
         });
     }
 
-    async run(msg, args) {
+    async run(message, args) {
         const { location } = args;
         try {
             // superagent request body is already parsed into a JSON object
@@ -36,13 +36,13 @@ module.exports = class WeatherCommand extends Command {
                 .setTimestamp()
                 .addField(`Weather in ${data.location.city}, ${data.location.region}, ${data.location.country}`,
                     `${data.item.condition.temp}°C ${data.item.condition.text}`, true)
-                return msg.embed(embed);
+                return message.embed(embed);
             } else {
-                return msg.reply(`\`${location}\` did not match any locations.`)
+                return message.reply(`\`${location}\` did not match any locations.`)
             }
-        } catch (err) {
-            console.log(err);
-            return msg.reply(`Something went wrong! Please try again later.`)
+        } catch (error) {
+            console.log(error);
+            return message.say(`Something went wrong! Please try again later.`)
         }
     }
 };
