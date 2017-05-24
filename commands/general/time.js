@@ -1,7 +1,7 @@
 const Commando = require('discord.js-commando');
-const request = require('request');
 const moment = require('moment-timezone');
-const {search} = require("fast-fuzzy");
+const { RichEmbed } = require('discord.js');
+const { search } = require("fast-fuzzy");
 
 module.exports = class WikiCommand extends Commando.Command {
     constructor(client) {
@@ -38,19 +38,14 @@ module.exports = class WikiCommand extends Commando.Command {
             // Adjust time to correct timezone according to query
             var time_now = moment().tz(timezone_result).format("dddd, MMMM Do YYYY, h:mm:ss a");
             
-            return msg.reply("", {embed: {
-                color: 16777215,
-                thumbnail: {
-                    url: `http://i.imgur.com/YPVdDAM.png`
-                },
-                fields: [{
-                    name: `Time in ${timezone_result}`,
-                    value: time_now,
-                    inline: true
-                }]
-            }});
+            const embed = new RichEmbed()
+                .setColor(0xFFFFFF)
+                .setThumbnail('http://i.imgur.com/YPVdDAM.png')
+                .setTimestamp()
+                .addField(`Time in ${timezone_result}`, time_now, true);
+            return msg.embed(embed);
         } else {
-            return msg.reply(`\`${timezone}\` did not match any timezones.`)
+            return msg.reply(`\`${timezone}\` did not match any timezones.`);
         }
         
       

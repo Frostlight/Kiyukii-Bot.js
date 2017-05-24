@@ -18,7 +18,7 @@ module.exports = class WeatherCommand extends Command {
         });
     }
 
-    async run(message, args) {
+    async run(msg, args) {
         const { location } = args;
         try {
             // superagent request body is already parsed into a JSON object
@@ -34,10 +34,10 @@ module.exports = class WeatherCommand extends Command {
                 .setTimestamp()
                 .addField(`Weather in ${data.location.city}, ${data.location.region}, ${data.location.country}`,
                     `${data.item.condition.temp}°C ${data.item.condition.text}`, true)
-            return message.embed(embed);
+            return msg.embed(embed);
         } catch (err) {
             console.log(err);
-            return message.reply(`Something went wrong! Please try again later.`)
+            return msg.reply(`Something went wrong! Please try again later.`)
         }
     }
 };
