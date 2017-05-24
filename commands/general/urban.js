@@ -1,4 +1,5 @@
 const Commando = require('discord.js-commando');
+const { RichEmbed } = require('discord.js');
 const request = require('request');
 const urban = require('relevant-urban');
 
@@ -28,48 +29,57 @@ module.exports = class UrbanCommand extends Commando.Command {
         // Set up promise and then() for urban dictionary look up
         var urbanPromise = urban.all(term);
         urbanPromise.then(function(data) {
-            // Create fields array beforehand
-            var fieldArray = [];
-            var totalChars = 0;
+            // Create RichEmbed to return beforehand and add definitions to it later
+            var embed = new RichEmbed()
+                    .setColor(0x808080)
+                    .setTitle('Urban Dictionary')
+                    .setURL('http://www.urbandictionary.com')
+                    .setTimestamp();
+            
+            // Field limit is 1024, so we allocate it according to this arbitrary split:
+            // 3/4 to the definition, and 1/4 to the example
+            // Subtract 14 characters from the example allocation since this small string to indicate example is added:
+            // \n**Example:**\n
+            
+            // Error for reference:
+            // (node:18692) UnhandledPromiseRejectionWarning: Unhandled promise rejection (reje
+            // ction id: 1): RangeError: RichEmbed field values may not exceed 1024 characters.
+            const charsForEach = 1024;
+            const charsForDefinition = charsForEach  * (3/4);
+            const charsForExample = charsForEach * (1/4) - 14;
+            
             for (var i = 0; (i < 3) && (i < data.length); i++) {
-                // Trim definition/example if it's too long
+                // Definition and examples are vars because we trim them if their length exceeds the limit
                 var definition = data[i]['definition'];
-                if (definition.length > 800) {
-                    definition = definition.substring(0, 700) + "...";
-                }
                 var example = data[i]['example'];
-                if (example.length > 100) {
-                    example = example.substring(0, 200) + "...";
+                
+                // Case where no example is provided, the text limit in this case is charsForEach
+                if (example.length == 0 && definition.length > charsForEach) {
+                    definition = definition.substring(0, charsForEach - 3) + "...";
+                // Case where an example is provided, the text limit in this case is charsForDefinition
+                } else {
+                    // Definition check
+                    // Add more characters to the definition limit depending on the length of the example
+                    const charsForDefinitionNew = (example.length > charsForExample) ? charsForDefinition : 
+                        (charsForDefinition + (charsForExample - example.length));
+                    if (definition.length > charsForDefinitionNew) {
+                        definition = definition.substring(0, charsForDefinitionNew - 3) + "...";
+                    }
+                    
+                    // Example check
+                    if (example.length > charsForExample) {
+                        example = example.substring(0, charsForExample - 3) + "...";
+                    }
                 }
+
+                // Combine string for definition and example (if example exists)
+                var definitionString = definition + ((example.length > 0) ? `\n**Example:**\n${example}` : '');
                 
-                // Stop early if we reached discord message limit (2000 chars)
-                // Use a 50 char buffer here just in case, so 1950 max characters
-                totalChars += definition.length + example.length;
-                
-                if (totalChars >= 1950) {
-                    break;
-                }
-                
-                // Form the definition/example string
-                var definitionString = definition;
-                // Add example if provided
-                if (example.length > 0) {
-                    definitionString += `\n**Example:**\n${example}`;
-                }
-                
-                fieldArray.push({
-                    name: `${i + 1}. ${data[i]['word']}`,
-                    value: definitionString,
-                    inline: true
-                });
+                // Add definition to RichEmbed response
+                embed.addField(`${i + 1}. ${data[i]['word']}`, definitionString, true);
             };
             
-            return msg.reply("", {embed: {
-                color: 8421504,
-                title: `Urban Dictionary`,
-                url: "http://www.urbandictionary.com/",
-                fields: fieldArray
-            }});
+            return msg.embed(embed);
         }, function(err) {
             return msg.reply(`\`${term}\` did not match any results.`);
         });
