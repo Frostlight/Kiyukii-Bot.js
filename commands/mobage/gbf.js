@@ -21,18 +21,18 @@ module.exports = class GranblueCommand extends Commando.Command {
         })
     }
 
-    async run(msg, args, client){
-        let wiki = args.wiki;
-        request(`https://gbf.wiki/api.php?action=opensearch&format=json&namespace=0&limit=1&search=${wiki}`, function(error, response, body) {
+    async run(message, args, client){
+        const { wiki } = args;
+        request(`<https://gbf.wiki/api.php?action=opensearch&format=json&namespace=0&limit=1&search=${wiki}>`, function(error, response, body) {
             if (!error && response.statusCode == 200) { 
                 let wikiPage = JSON.parse(body)[3];
 
                 // Return the wiki URL if there are any results for the search
                 if (typeof wikiPage != 'undefined' && wikiPage != '') {
-                    return msg.reply(`${wikiPage}`);
+                    return message.reply(`${wikiPage}`);
                 }
                 else {
-                    return msg.reply(`\`${wiki}\` did not match any wiki pages.`)
+                    return message.reply(`\`${wiki}\` did not match any wiki pages.`)
                 }
             }
         })
