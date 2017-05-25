@@ -1,9 +1,9 @@
-const Commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const moment = require('moment-timezone');
 const { RichEmbed } = require('discord.js');
 const { search } = require("fast-fuzzy");
 
-module.exports = class WikiCommand extends Commando.Command {
+module.exports = class WikiCommand extends Command {
     constructor(client) {
         super(client, {
             name: "time",

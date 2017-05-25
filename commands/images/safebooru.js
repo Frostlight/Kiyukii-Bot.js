@@ -1,8 +1,8 @@
-const Commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const request = require('superagent');
 const xml2js = require('xml2js');
 
-module.exports = class safebooruCommand extends Commando.Command {
+module.exports = class safebooruCommand extends Command {
     constructor(client) {
         super(client, {
             name: "safebooru",

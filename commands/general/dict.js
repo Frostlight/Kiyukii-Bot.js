@@ -1,8 +1,8 @@
-const Commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const { RichEmbed } = require('discord.js');
 const wordnet = require('wordnet');
 
-module.exports = class dictCommand extends Commando.Command {
+module.exports = class dictCommand extends Command {
     constructor(client) {
         super(client, {
             name: "dict",
