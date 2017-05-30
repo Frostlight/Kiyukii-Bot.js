@@ -29,9 +29,49 @@ module.exports = class translateCommand extends Command {
     async run(message, args, client){
         let { text } = args;
         
-        // TODO: Error check: text is too long
-        // TODO: Error check: invalid
-        console.log("config key = " + config.microsoft_azure_api_token);
-        console.log("args = " + text);
+        // Error check: text is too long
+        if (text.length >= 2000) {
+            return message.say('The text given is too long! The maximum length is 2000 characters.');
+        }
+        
+        // TODO: Error check: invalid key given
+        
+        // Create a client for use of MSTranslator services
+        const translate_client = new MsTranslator({api_key: config.microsoft_translate_api_token}, true);
+        
+        // Detect the language of the text submitted
+        var params = {text: text};
+        translate_client.detect(params, function(error, language) {
+            if (!error) {
+                // Translate the text to English if the language detected isn't already english
+                if (language != 'en') {
+                    var params = {text: text, from: language, to: 'en'};
+                    
+                    // This is kind of callback hell already #blamePackageNoPromiseSupport
+                    translate_client.translate(params, function(error, result) {
+                        if (!error) {
+                            // Resulting translated text is stored in result
+                            const embed = new RichEmbed()
+                                .setColor(0xFFFFFF)
+                                .setThumbnail('http://i.imgur.com/Qt8Ncr1.png')
+                                .setTimestamp()
+                                .addField(`Detected Language: ${language}`, result, true);
+                            return message.embed(embed);
+                        } else {
+                            // Translate Failed
+                            console.log(error);
+                            return message.reply(`Something went wrong! Please try again later.`)
+                        }
+                    });
+                } else {
+                    // Language is english
+                    return message.say('The text given is already in English!');
+                }
+            } else {
+                // Detect language failed
+                console.log(error);
+                return message.reply(`Something went wrong! Please try again later.`)
+            }
+        });
     }
 }
