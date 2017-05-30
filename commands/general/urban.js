@@ -28,7 +28,7 @@ module.exports = class UrbanCommand extends Command {
         try {
             // Await promise for urbandictionary lookup
             // Invalid lookups generate a TypeError
-            var urban = await urban.all(term);
+            const urbanDefinitions = await urban.all(term);
             
             // Create RichEmbed to return beforehand and add definitions to it later
             var embed = new RichEmbed()
@@ -49,10 +49,10 @@ module.exports = class UrbanCommand extends Command {
             const charsForDefinition = charsForEach  * (3/4);
             const charsForExample = charsForEach * (1/4) - 14;
             
-            for (var i = 0; (i < 3) && (i < urban.length); i++) {
+            for (var i = 0; (i < 3) && (i < urbanDefinitions.length); i++) {
                 // Definition and examples are vars because we trim them if their length exceeds the limit
-                var definition = urban[i]['definition'];
-                var example = urban[i]['example'];
+                var definition = urbanDefinitions[i]['definition'];
+                var example = urbanDefinitions[i]['example'];
                 
                 // Case where no example is provided, the text limit in this case is charsForEach
                 if (example.length == 0 && definition.length > charsForEach) {
@@ -77,7 +77,7 @@ module.exports = class UrbanCommand extends Command {
                 var definitionString = definition + ((example.length > 0) ? `\n**Example:**\n${example}` : '');
                 
                 // Add definition to RichEmbed response
-                embed.addField(`${i + 1}. ${urban[i]['word']}`, definitionString, true);
+                embed.addField(`${i + 1}. ${urbanDefinitions[i]['word']}`, definitionString, true);
             };
             
             return message.embed(embed);
