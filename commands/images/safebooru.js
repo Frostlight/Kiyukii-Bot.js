@@ -48,7 +48,7 @@ module.exports = class safebooruCommand extends Command {
                         var url = "http:" + item['$']['file_url'];
                         
                         // Return image as a file embed
-                        return message.say("", {file: url});
+                        return message.say('', {file: url});
                         
                         // For extra information in embed
                         // Omitted for now

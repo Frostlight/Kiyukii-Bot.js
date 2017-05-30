@@ -22,7 +22,7 @@ module.exports = class QuizCommand extends Command {
             
             const embed = new RichEmbed()
                 .setTitle('You have **15** seconds to answer this question:')
-                .setDescription(`**Category: ${body[0].category.title}**\n${body[0].question}`);
+                .setDescription(`**Category: ${body[0].category.title}** for ${body[0].value} points\n\n${body[0].question}`);
             message.embed(embed);
             try {
                 const collected = await message.channel.awaitMessages(res => res.author.id === message.author.id, {

@@ -23,7 +23,7 @@ module.exports = class dictCommand extends Command {
     }
 
     async run(message, args, client){
-        let term = args.term;
+        let { term } = args;
         
         // wordnet only supports callbacks for now
         wordnet.lookup(term, function(error, definitions) {
