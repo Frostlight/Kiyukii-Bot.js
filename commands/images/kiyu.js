@@ -2,38 +2,29 @@ const { Command } = require('discord.js-commando');
 const request = require('superagent');
 const xml2js = require('xml2js-es6-promise');
 
-module.exports = class safebooruCommand extends Command {
+// Use path to access the utility functions, located two directories up
+const path = require('path');
+const { booruLookup } = require(path.dirname(path.dirname(__dirname)) + '/utility.js');
+
+module.exports = class kiyuCommand extends Command {
     constructor(client) {
         super(client, {
-            name: "safebooru",
+            name: "kiyu",
             group: "images",
-            memberName: "safebooru",
-            description: "Looks up pictures on Safebooru.",
-            examples: ["safebooru Naruto"],
-
-            args: [
-                {
-                    key: 'tags',
-                    label: 'tags',
-                    prompt: 'Which tags do you want to look up?',
-                    type: 'string'
-                }
-            ]
+            memberName: "kiyu",
+            description: "Looks up pictures of Illya."
         })
     }
 
-    async run(message, args, client){
-        let { tags } = args;
-        
+    async run(message, client){
+        // superagent request response text is xml format
         try {
-            // superagent request response text is xml format
             const { text } = await request
                 .get('http://safebooru.org/index.php')
                 .query({page: 'dapi'})
                 .query({s: 'post'})
                 .query({q: 'index'})
-                .query({tags: tags});
-                
+                .query({tags: 'illyasviel_von_einzbern'});
             // Parse XML response to an object
             let parseString = await xml2js(text);
             let resultArray = parseString['posts']['post'];

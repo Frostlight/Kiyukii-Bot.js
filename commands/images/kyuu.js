@@ -2,29 +2,17 @@ const { Command } = require('discord.js-commando');
 const request = require('superagent');
 const xml2js = require('xml2js-es6-promise');
 
-module.exports = class safebooruCommand extends Command {
+module.exports = class kyuuCommand extends Command {
     constructor(client) {
         super(client, {
-            name: "safebooru",
+            name: "kyuu",
             group: "images",
-            memberName: "safebooru",
-            description: "Looks up pictures on Safebooru.",
-            examples: ["safebooru Naruto"],
-
-            args: [
-                {
-                    key: 'tags',
-                    label: 'tags',
-                    prompt: 'Which tags do you want to look up?',
-                    type: 'string'
-                }
-            ]
+            memberName: "kyuu",
+            description: "Looks up pictures of Izumi Sagiri."
         })
     }
 
-    async run(message, args, client){
-        let { tags } = args;
-        
+    async run(message, client){
         try {
             // superagent request response text is xml format
             const { text } = await request
@@ -32,7 +20,7 @@ module.exports = class safebooruCommand extends Command {
                 .query({page: 'dapi'})
                 .query({s: 'post'})
                 .query({q: 'index'})
-                .query({tags: tags});
+                .query({tags: 'izumi_sagiri'});
                 
             // Parse XML response to an object
             let parseString = await xml2js(text);
