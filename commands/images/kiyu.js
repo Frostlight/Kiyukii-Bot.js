@@ -2,10 +2,6 @@ const { Command } = require('discord.js-commando');
 const request = require('superagent');
 const xml2js = require('xml2js-es6-promise');
 
-// Use path to access the utility functions, located two directories up
-const path = require('path');
-const { booruLookup } = require(path.dirname(path.dirname(__dirname)) + '/utility.js');
-
 module.exports = class kiyuCommand extends Command {
     constructor(client) {
         super(client, {
