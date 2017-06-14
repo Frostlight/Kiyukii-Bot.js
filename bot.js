@@ -43,9 +43,13 @@ client
     })
     // Initialize #starboard features
     .on('messageReactionAdd', (reaction, user) => {
-		if (reaction.emoji.name !== '⭐') {
+        // Only star if the reaction is a :star:
+        // Only star for the first count
+		if (reaction.emoji.name !== '⭐' || reaction.count !== 1) {
             return;
         }
+        
+        // Star the message
 		const { message } = reaction;
 		const starboard = message.guild.channels.find('name', 'starboard');
 		if (!starboard) {
