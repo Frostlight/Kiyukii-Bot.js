@@ -48,19 +48,18 @@ module.exports = class Starboard {
 		return {
 			author: {
 				icon_url: message.author.displayAvatarURL, // eslint-disable-line camelcase
-				name: `${message.author.username}#${message.author.discriminator} (${message.author.id})`
+				name: `${message.author.username}#${message.author.discriminator}`
 			},
 			color: 0xFFAC33,
 			fields: [
-				{
+				/*{
 					name: 'ID',
 					value: message.id,
 					inline: true
-				},
+				},*/
 				{
 					name: 'Channel',
 					value: message.channel.toString(),
-					inline: true
 				},
 				{
 					name: 'Message',

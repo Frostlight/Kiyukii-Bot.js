@@ -11,6 +11,7 @@
     "moment-timezone": "^0.5.13",
     "mstranslator": "^3.0.0",
     "relevant-urban": "^2.0.0",
+    "sherlockjs": "0.0.9",
     "sqlite": "^2.5.0",
     "superagent": "^3.5.2",
     "wordnet": "^0.1.2",

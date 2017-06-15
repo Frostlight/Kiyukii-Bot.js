@@ -1,0 +1,46 @@
+const { Command } = require('discord.js-commando');
+const moment = require('moment');
+const sherlock = require('sherlockjs');
+const { stripIndents } = require('common-tags');
+
+// Full credits to: https://github.com/WeebDev/Commando/
+module.exports = class RemindMeCommand extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'remindme',
+			aliases: ['remind'],
+			group: 'util',
+			memberName: 'remindme',
+			description: 'Reminds you of something.',
+			guildOnly: true,
+			args: [
+				{
+					key: 'remind',
+					label: 'reminder',
+					prompt: 'what would you like me to remind you about?\n',
+					type: 'string',
+					validate: time => {
+						const remindTime = sherlock.parse(time);
+						if (!remindTime.startDate) {
+                            return `please provide a valid starting time.`;
+                        }
+						return true;
+					},
+					parse: time => sherlock.parse(time)
+				}
+			]
+		});
+	}
+    
+	async run(message, { remind }) {
+		const time = remind.startDate.getTime() - Date.now();
+		const preRemind = await message.say(stripIndents`
+			${message.author}, I will remind you about \`${remind.eventTitle}\` ${moment().add(time, 'ms').fromNow()}.`);
+		const remindMessage = await new Promise(resolve => {
+			setTimeout(() => resolve(message.say(stripIndents`
+				${message.author}, you wanted me to remind you of: \`${remind.eventTitle}\``)), time);
+		});
+
+		return [preRemind, remindMessage];
+	}
+};
