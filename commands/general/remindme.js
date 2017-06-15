@@ -45,7 +45,7 @@ module.exports = class RemindMeCommand extends Command {
         
 		const time = dateTime.getTime() - Date.now();
 		const remindInitiate = await message.say(stripIndents`
-			${message.author}, I will remind you about \`${eventTitle}\` ${moment().add(time, 'ms').fromNow()}.`);
+			${message.author}, I will remind you about \`${eventTitle}\` ${moment().add(time, 'ms').fromNow()}. \nExact time: \`${dateTime.toString()}\``);
 		const remindResult = await new Promise(resolve => {
 			setTimeout(() => resolve(message.say(stripIndents`
 				${message.author}, you wanted me to remind you of: \`${eventTitle}\``)), time);
