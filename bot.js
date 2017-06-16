@@ -55,7 +55,7 @@ client
 		if (!starboard) {
             return message.channel.send(`${user}, can't star things without a #starboard.`); // eslint-disable-line consistent-return, max-len
         }
-        Starboard.createStar(message, starboard, user.id);
+        Starboard.createStar(message, starboard, user);
 	});
     
 // Database

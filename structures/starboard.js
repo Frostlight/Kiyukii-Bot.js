@@ -3,12 +3,12 @@ const path = require('path');
 const { URL } = require('url');
 
 module.exports = class Starboard {
-	static async createStar(message, starboardChannel, starBy) {
+	static async createStar(message, starboardChannel, starredByUser) {
 		message.content = message.content.length <= 1024 ? message.content : `${message.content.substr(0, 1021)}...`;
-		const starboardMessage = await starboardChannel.send({ embed: Starboard._starEmbed(message) });
+		const starboardMessage = await starboardChannel.send({ embed: Starboard._starEmbed(message, starredByUser) });
 	}
     
-	static _starEmbed(message) {
+	static _starEmbed(message, starredByUser) {
 		let attachmentImage;
 		const extensions = new Set(['.png', '.jpg', '.jpeg', '.gif', '.webp']);
 		const linkRegex = /https?:\/\/(?:\w+\.)?[\w-]+\.[\w]{2,3}(?:\/[\w-_\.]+)+\.(?:png|jpg|jpeg|gif|webp)/; // eslint-disable-line no-useless-escape, max-len
@@ -67,7 +67,8 @@ module.exports = class Starboard {
 				}
 			],
 			image: { url: attachmentImage || undefined },
-			timestamp: message.createdAt
+			timestamp: message.createdAt,
+            footer: { text: `⭐${starredByUser.username}#${starredByUser.discriminator}` }
 		};
 	}
 };
