@@ -6,7 +6,7 @@ module.exports = class ShadowverseCommand extends Command {
     constructor(client) {
         super(client, {
             name: "sv",
-            group: "mobage",
+            group: "games",
             memberName: "sv",
             description: "Looks up Shadowverse card information.",
             examples: ["sv Water Fairy"],

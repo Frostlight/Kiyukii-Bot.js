@@ -6,7 +6,7 @@ module.exports = class FEHeroesCommand extends Command {
     constructor(client) {
         super(client, {
             name: "feheroes",
-            group: "mobage",
+            group: "games",
             memberName: "feheroes",
             description: "Looks up Fire Emblem Heroes character information.",
             examples: ["feheroes Lucina"],

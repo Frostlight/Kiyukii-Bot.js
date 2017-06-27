@@ -67,8 +67,8 @@ module.exports = class Starboard {
 				}
 			],
 			image: { url: attachmentImage || undefined },
-			timestamp: message.createdAt,
-            footer: { text: `⭐${starredByUser.username}#${starredByUser.discriminator}` }
+			timestamp: message.createdAt
+            //footer: { text: `⭐${starredByUser.username}#${starredByUser.discriminator}` }
 		};
 	}
 };

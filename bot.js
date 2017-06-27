@@ -70,7 +70,7 @@ client.registry
         ['general', 'General'],
         ['fun', 'Fun'],
         ['images', 'Images'],
-        ['mobage', 'Mobage']
+        ['games', 'Games']
     ])
 
     // Registers all built-in groups, commands, and argument types

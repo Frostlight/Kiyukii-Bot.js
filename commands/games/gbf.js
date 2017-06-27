@@ -5,7 +5,7 @@ module.exports = class GranblueCommand extends Command {
     constructor(client) {
         super(client, {
             name: "gbf",
-            group: "mobage",
+            group: "games",
             memberName: "gbf",
             description: "Looks up Granblue wiki information.",
             examples: ["gbf Albert"],
