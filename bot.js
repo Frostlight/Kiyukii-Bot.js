@@ -13,8 +13,6 @@ if (!process.env.DISCORD_BOT_TOKEN || !process.env.DISCORD_COMMAND_PREFIX) {
     process.exit();
 };
 
-const config = require('./config.json');
-
 // Initialise commando client
 const client = new Commando.Client({
     owner: '116401285334433792',
