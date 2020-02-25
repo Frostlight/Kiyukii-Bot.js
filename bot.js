@@ -7,10 +7,9 @@ const fs = require('fs');
 // This bot has a very simplified implementation of it
 const Starboard = require('./structures/starboard');
 
-// Initialise configuration file, create one if it doesn't exist
-if (!fs.existsSync('./config.json')) {
-    fs.writeFileSync('./config.json', '{"discord_bot_token" : "", "command_prefix" : "-"}');
-    console.log('WARNING: config.json is missing.');
+// Initialise Heroku configuration variables
+if (!process.env.DISCORD_BOT_TOKEN || !process.env.DISCORD_COMMAND_PREFIX) {
+    console.log('WARNING: missing Heroku config vars DISCORD_BOT_TOKEN and/or DISCORD_COMMAND_PREFIX.');
     process.exit();
 };
 
@@ -19,7 +18,7 @@ const config = require('./config.json');
 // Initialise commando client
 const client = new Commando.Client({
     owner: '116401285334433792',
-    commandPrefix: config.command_prefix,
+    commandPrefix: process.env.DISCORD_COMMAND_PREFIX,
     unknownCommandResponse: false
 });
 
@@ -80,5 +79,5 @@ client.registry
     .registerCommandsIn(path.join(__dirname, 'commands'));
     
 // Login to discord
-client.login(config.discord_bot_token);
+client.login(process.env.DISCORD_BOT_TOKEN);
     
