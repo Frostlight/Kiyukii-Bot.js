@@ -40,7 +40,7 @@ if (process.env._ &&
 // Initialise commando client
 const client = new Commando.Client({
     owner: '116401285334433792',
-    commandPrefix: process.env.DISCORD_COMMAND_PREFIX,
+    commandPrefix: discordCommandPrefix,
     unknownCommandResponse: false
 });
 
@@ -99,5 +99,5 @@ client.registry
     .registerCommandsIn(path.join(__dirname, 'commands'));
     
 // Login to discord
-client.login(process.env.DISCORD_BOT_TOKEN);
+client.login(discordBotToken);
     
