@@ -2,16 +2,38 @@ const Commando = require('discord.js-commando');
 const path = require('path');
 const sqlite = require('sqlite');
 const fs = require('fs');
-
 // All credits for starboard system to: https://github.com/WeebDev/Commando
 // This bot has a very simplified implementation of it
 const Starboard = require('./structures/starboard');
 
-// Initialise Heroku configuration variables
-if (!process.env.DISCORD_BOT_TOKEN || !process.env.DISCORD_COMMAND_PREFIX) {
-    console.log('WARNING: missing Heroku config vars DISCORD_BOT_TOKEN and/or DISCORD_COMMAND_PREFIX.');
+var discordBotToken;
+var discordCommandPrefix;
+
+// Load Discord bot token and command prefix through config
+if (process.env._ &&
+    process.env._.indexOf("heroku")) {
+    // Heroku environment
+    if (process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_COMMAND_PREFIX) {
+        discordBotToken = process.env.DISCORD_BOT_TOKEN;
+        discordCommandPrefix = process.env.DISCORD_COMMAND_PREFIX;
+    } else {
+        console.log('ERROR: Heroku config vars DISCORD_BOT_TOKEN and/or DISCORD_COMMAND_PREFIX are not defined');
+        process.exit();
+    }
+} else if (fs.existsSync('./config.json')) {
+    // Standard environment
+    const config = require('./config.json');
+    if (config.discord_bot_token && config.discord_command_prefix) {
+        discordBotToken = config.discord_bot_token;
+        discordCommandPrefix = config.discord_command_prefix
+    } else {
+        console.log('ERROR: config.json is invalid. discord_bot_token and/or discord_command_prefix are not defined');
+        process.exit();
+    }
+} else {
+    console.log('ERROR: config.json is missing. See config_example.json');
     process.exit();
-};
+}
 
 // Initialise commando client
 const client = new Commando.Client({
@@ -62,17 +84,15 @@ client.setProvider(
 
 // Register command groups
 client.registry
-    // Registers your custom command groups
+    // Registers custom command groups
     .registerGroups([
         ['general', 'General'],
         ['fun', 'Fun'],
         ['images', 'Images'],
         ['games', 'Games']
     ])
-
     // Registers all built-in groups, commands, and argument types
     .registerDefaults()
-
     // Registers all commands in the ./commands/ directory
     .registerCommandsIn(path.join(__dirname, 'commands'));
     
