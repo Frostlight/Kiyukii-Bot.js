@@ -2,7 +2,6 @@
 \node_modules
 
 # Bot files
-config.json
 database.sqlite3
 
 # Windows image file caches

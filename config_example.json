@@ -1,5 +1,4 @@
 {
 	"discord_bot_token": "1234567890", 
-    "microsoft_translate_api_token": "abcdefghi",
-	"command_prefix": "-"
+    "discord_command_prefix": "-",
 }
