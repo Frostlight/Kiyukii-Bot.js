@@ -16,6 +16,7 @@ if (process.env._ &&
     if (process.env.DISCORD_BOT_TOKEN && process.env.DISCORD_COMMAND_PREFIX) {
         discordBotToken = process.env.DISCORD_BOT_TOKEN;
         discordCommandPrefix = process.env.DISCORD_COMMAND_PREFIX;
+        console.log('-> Successfully loaded Heroku config variables');
     } else {
         console.log('ERROR: Heroku config vars DISCORD_BOT_TOKEN and/or DISCORD_COMMAND_PREFIX are not defined');
         process.exit();
@@ -26,6 +27,7 @@ if (process.env._ &&
     if (config.discord_bot_token && config.discord_command_prefix) {
         discordBotToken = config.discord_bot_token;
         discordCommandPrefix = config.discord_command_prefix
+        console.log('-> Successfully loaded config.json');
     } else {
         console.log('ERROR: config.json is invalid. discord_bot_token and/or discord_command_prefix are not defined');
         process.exit();
