@@ -90,8 +90,7 @@ client.registry
     .registerGroups([
         ['general', 'General'],
         ['fun', 'Fun'],
-        ['images', 'Images'],
-        ['games', 'Games']
+        ['images', 'Images']
     ])
     // Registers all built-in groups, commands, and argument types
     .registerDefaults()
