@@ -12,8 +12,8 @@ module.exports = class SayCommand extends Command {
 
             args: [
                 {
-                    key: 'say',
-                    label: 'say',
+                    key: 'text',
+                    label: 'text',
                     prompt: 'What would you like me to say?',
                     type: 'string'
                 }
@@ -22,12 +22,13 @@ module.exports = class SayCommand extends Command {
     }
 
     async run(message, args){
+        const { text } = args;
         // Delete user's comment, replace it with bot's
         if (message.mentions.channels.first()) {
             message.delete().catch(console.error);
-            message.mentions.channels.first().send(args.text.split(" ").slice(1).join(" "));
+            message.mentions.channels.first().send(text.split(" ").slice(1).join(" "));
         } else {
-            message.channel.send(args.text);
+            message.channel.send(text);
             message.delete().catch(console.error);
         }
     }
