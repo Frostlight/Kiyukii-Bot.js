@@ -22,8 +22,13 @@ module.exports = class SayCommand extends Command {
     }
 
     async run(message, args){
-        // Delete user's comment, replace it with bot's.
-        message.delete();
-    	message.say(args);
+        // Delete user's comment, replace it with bot's
+        if (message.mentions.channels.first()) {
+            message.delete().catch(console.error);
+            message.mentions.channels.first().send(args.text.split(" ").slice(1).join(" "));
+        } else {
+            message.channel.send(args.text);
+            message.delete().catch(console.error);
+        }
     }
 }
