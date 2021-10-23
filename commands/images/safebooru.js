@@ -41,7 +41,7 @@ module.exports = class safebooruCommand extends Command {
             if (typeof resultArray != 'undefined') {
                 // Pick a random element from the array and send the URL
                 var item = resultArray[Math.floor(Math.random()*resultArray.length)];
-                var url = "http:" + item['$']['file_url'];
+                var url = item['$']['file_url'];
                 
                 // Return url of result image
                 return message.say(url);
